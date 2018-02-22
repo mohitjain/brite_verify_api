@@ -1,5 +1,6 @@
 require_relative "brite_verify/version"
 require_relative "brite_verify/configuration/base"
+require "httparty"
 module BriteVerify
   def self.configuration
     @configuration ||= BriteVerify::Configuration::Base.new
@@ -17,9 +18,6 @@ module BriteVerify
     @configuration = nil
   end
 end
-
-
-require_relative 'brite_verify/clients/base'
+require_relative "brite_verify/clients/base"
 require_relative "brite_verify/clients/email"
 require_relative "brite_verify/error"
-require "breaker"
