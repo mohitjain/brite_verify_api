@@ -1,4 +1,4 @@
-module BriteVerify
+module BriteVerifyApi
   module Clients
     class Email < Base
       API_PATH = "/emails.json".freeze
@@ -9,9 +9,9 @@ module BriteVerify
       end
 
       def verify
-        unless BriteVerify.configuration.default_email_api_reponse.nil?
+        unless BriteVerifyApi.configuration.default_email_api_reponse.nil?
           return RecursiveOpenStruct.new(
-            BriteVerify.configuration.default_email_api_reponse,
+            BriteVerifyApi.configuration.default_email_api_reponse,
           )
         end
         options = { address: email }

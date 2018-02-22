@@ -1,4 +1,4 @@
-module BriteVerify
+module BriteVerifyApi
   module Configuration
     class Base
       def default_email_api_reponse
