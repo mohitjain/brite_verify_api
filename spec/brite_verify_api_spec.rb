@@ -1,6 +1,6 @@
-RSpec.describe BriteVerify do
+RSpec.describe BriteVerifyApi do
   it "has a version number" do
-    expect(BriteVerify::VERSION).not_to be nil
+    expect(BriteVerifyApi::VERSION).not_to be nil
   end
 
   it "does something useful" do

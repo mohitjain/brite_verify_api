@@ -1,4 +1,4 @@
-module BriteVerify
+module BriteVerifyApi
   class Error < StandardError
   end
 end
