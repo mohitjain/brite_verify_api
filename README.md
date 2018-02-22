@@ -1,8 +1,6 @@
 # BriteVerify
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/brite_verify`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+The un-official BriteVerify API Client for Ruby
 
 ## Installation
 
@@ -22,17 +20,45 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Create a configuration file and put it in your initializers config/initializers/brite_verify.rb
 
-## Development
+```ruby
+BriteVerify.configure do |config|
+  config.api_key = "-----Api ----- key -----"
+end
+```
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+### Email Verification
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+```ruby
+brite_verify = BriteVerify::Clients::Email.new "johndoe@example.com"
+brite_verify.verify
+```
+
+### Testing the integration
+
+Brite charge on per hit basis. On Development Environment you can set up another key in the configure block to prevent that hit (to save money). `default_email_api_reponse` should be hash. It will be returned as it is.
+
+```ruby
+BriteVerify.configure do |config|
+  config.api_key = "-----Api ----- key -----"
+  config.default_email_api_reponse = {
+    address: "johndoe@briteverify.com",
+    account: "johndoe",
+    domain: "briteverify.com",
+    status: "valid",
+    disposable: false,
+    role_address: false,
+    duration: 0.104516605
+  } if Rails.env.development?
+end
+```
+
+
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/brite_verify. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/mohitjain/brite_verify. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
 ## License
 
