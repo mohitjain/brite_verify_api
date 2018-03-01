@@ -3,7 +3,7 @@ module BriteVerifyApi
   module Clients
     class Base
       include HTTParty
-      API_HOST = "https://bpi.BriteVerifyApi.com".freeze
+      API_HOST = "https://bpi.briteverify.com".freeze
 
       def get(url, options = {})
         options[:apikey] = BriteVerifyApi.configuration.api_key
