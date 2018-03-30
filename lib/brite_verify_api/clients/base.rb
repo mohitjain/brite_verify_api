@@ -8,7 +8,7 @@ module BriteVerifyApi
       def get(url, options = {})
         options[:apikey] = BriteVerifyApi.configuration.api_key
         begin
-          response = self.class.get(url, options)
+          response = self.class.get(url, query: options)
           data = JSON.parse response.body, symbolize_names: true
           case response.code
           when 200
