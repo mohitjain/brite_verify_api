@@ -1,47 +1,50 @@
-# BriteVerifyApi
+# brite_verify_api
 
-The un-official BriteVerifyApi API Client for Ruby
+An unofficial Ruby client for the [BriteVerify](https://www.briteverify.com/) email verification API.
 
-## Installation
+> Not affiliated with BriteVerify. The gem is at version 0.1.0 and covers one call: verifying a single email address.
 
-Add this line to your application's Gemfile:
+## Install
 
 ```ruby
 gem 'brite_verify_api'
 ```
 
-And then execute:
+Then `bundle`, or `gem install brite_verify_api`. It uses `httparty` and `recursive-open-struct`.
 
-    $ bundle
+## Configure
 
-Or install it yourself as:
-
-    $ gem install brite_verify_api
-
-## Usage
-
-Create a configuration file and put it in your initializers config/initializers/brite_verify_api.rb
+In a Rails app, `config/initializers/brite_verify_api.rb`:
 
 ```ruby
 BriteVerifyApi.configure do |config|
-  config.api_key = "-----Api ----- key -----"
+  config.api_key = ENV.fetch("BRITEVERIFY_API_KEY")
 end
 ```
 
-### Email Verification
+Keep the key in an environment variable or your credentials store, never in the repository.
+
+## Verify an email
 
 ```ruby
-brite_verify_api = BriteVerifyApi::Clients::Email.new "johndoe@example.com"
-brite_verify_api.verify
+response = BriteVerifyApi::Clients::Email.new("johndoe@example.com").verify
+
+response.status        # => "valid"
+response.disposable    # => false
+response.role_address  # => false
 ```
 
-### Testing the integration
+The response is the API's JSON as a nested struct. A non-200 reply, a network failure or an unparsable body raises
+`BriteVerifyApi::Error`.
 
-Brite charge on per hit basis. On Development Environment you can set up another key in the configure block to prevent that hit (to save money). `default_email_api_reponse` should be hash. It will be returned as it is.
+## Don't pay for calls while developing
+
+BriteVerify charges per request. Set `default_email_api_reponse` (the spelling is part of the gem's API) and `verify`
+returns that hash as a struct without calling the service:
 
 ```ruby
 BriteVerifyApi.configure do |config|
-  config.api_key = "-----Api ----- key -----"
+  config.api_key = ENV.fetch("BRITEVERIFY_API_KEY")
   config.default_email_api_reponse = {
     address: "johndoe@briteverify.com",
     account: "johndoe",
@@ -54,16 +57,21 @@ BriteVerifyApi.configure do |config|
 end
 ```
 
+## Development
 
+```
+bin/setup        # install dependencies
+bundle exec rake spec
+bin/console      # a console with the gem loaded
+```
+
+Releases: bump `lib/brite_verify_api/version.rb`, then `bundle exec rake release`.
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/mohitjain/brite_verify_api. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome at https://github.com/mohitjain/brite_verify_api. Contributors are expected
+to follow the [Code of Conduct](CODE_OF_CONDUCT.md).
 
 ## License
 
-The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
-
-## Code of Conduct
-
-Everyone interacting in the BriteVerifyApi project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/mohitjain/brite_verify_api/blob/master/CODE_OF_CONDUCT.md).
+[MIT](LICENSE.txt).
